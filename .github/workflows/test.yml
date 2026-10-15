@@ -1,0 +1,36 @@
+name: Testes do Destacador de Boletins
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar Python e Tkinter
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-venv python3-tk
+
+      - name: Criar ambiente de testes e instalar PyMuPDF
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install "PyMuPDF==1.24.11"
+
+      - name: Validar sintaxe Python e instalador
+        run: |
+          .venv/bin/python -m py_compile destacador_boletins_v3_2_1.py tests/test_destacador.py
+          bash -n Instalar_Destacador_Boletins_v3_2_1.sh
+
+      - name: Testar PDF fictício com dois boletins na mesma folha
+        run: .venv/bin/python -m unittest discover -s tests -v

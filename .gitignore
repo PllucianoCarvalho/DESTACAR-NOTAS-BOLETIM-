@@ -1,0 +1,12 @@
+# Python temporaries and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# School documents contain personal data; never commit PDFs by accident
+*.pdf
+
+# Test and editor artifacts
+.pytest_cache/
+*.swp
